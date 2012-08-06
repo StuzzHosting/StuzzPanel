@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+<?php
+
+header( 'Cache-Control: private, max-age=0' );
+header( 'Pragma: no-cache, must-revalidate' );
+
+$server = array(
+	'max_players' => 20,
+	'online_players' => array( 'Notch', 'jeb_', 'Xxspawnkiller69xX' ),
+	'cpu' => mt_rand( 30, 140 ),
+	'mem' => mt_rand( 10, 70 ) * 10.24,
+	'max_mem' => 1024,
+	'tick' => mt_rand( 17000, 20000 ) / 1000,
+);
+
+if ( !empty( $_GET['api'] ) ) {
+	switch ( $_GET['api'] ) {
+	case 'players':
+		exit( json_encode( array(
+			'max' => $server['max_players'],
+			'list' => $server['online_players']
+		) ) );
+	case 'load':
+		exit( json_encode( array(
+			'cpu' => $server['cpu'],
+			'mem' => $server['mem'],
+			'maxmem' => $server['max_mem'],
+			'tick' => $server['tick']
+		) ) );
+	}
+}
+
+?><!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -29,44 +60,38 @@
 
 	<div class="tab-pane active" id="general">
 		<h1>CrapCraft</h1>
-		<dl>
-			<dt>Package</dt>
-				<dd>Gold (1024MB RAM)</dd>
-			<dt>Price</dt>
-				<dd>$20 / month</dd>
-			<dt>Recommended player limit</dt>
-				<dd>45 - 60</dd>
-			<dt>Server address</dt>
-				<dd>crapcraft.stuzzhosting.com</dd>
-		</dl>
+		<div class="row-fluid">
+			<div class="span5">
+				<h2>Hosting</h2>
+				<dl>
+					<dt>Package</dt>
+						<dd>Gold (<?php echo $server['max_mem']; ?>MB RAM)</dd>
+					<dt>Price</dt>
+						<dd>$20 / month</dd>
+					<dt>Recommended player limit</dt>
+						<dd>45 - 60</dd>
+					<dt>Server address</dt>
+						<dd>crapcraft.stuzzhosting.com</dd>
+				</dl>
+			</div>
 
-		<h2>Live stats</h2>
-		<dl id="live-stats">
-			<dt>Players (3 / <a href="change-player-cap">20</a>)</dt>
-				<dd>Notch<br>jeb_<br>Xxspawnkiller69xx</dd>
-			<dt>Ticks per second (20 is normal)</dt>
-				<dd><?php echo mt_rand( 19000, 20000 ) / 1000; ?></dd>
-		</dl>
+			<div class="span5">
+				<h2>Live stats</h2>
+				<dl id="live-stats">
+					<dt>Players (3 / <a href="change-player-cap"><?php echo $server['max_players']; ?></a>)</dt>
+						<dd><?php echo implode( '<br>', $server['online_players'] ); ?></dd>
+				</dl>
+			</div>
 
-		<div id="guages"></div>
-		<script async>
-			google.setOnLoadCallback(function() {
-				var data = google.visualization.arrayToDataTable([
-					['Label', 'Value'],
-					['Memory', 43],
-					['CPU', 189]
-				]);
-				var options = {
-					width: 250, height: 120,
-					redFrom: 90, redTo: 100,
-					yellowFrom: 75, yellowTo: 90,
-					minorTicks: 4
-				};
+			<div class="span2">
+				<h2>Fake data</h2>
+				<div id="gauge-cpu"></div>
+				<div id="gauge-mem"></div>
+				<div id="gauge-tick"></div>
+			</div>
+		</div>
 
-			 	var chart = new google.visualization.Gauge(document.querySelector('#guages'));
-				chart.draw(data, options);
-			});
-		</script>
+		<script async src="panel.js"></script>
 	</div>
 
 
