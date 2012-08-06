@@ -3,6 +3,8 @@
 header( 'Cache-Control: private, max-age=0' );
 header( 'Pragma: no-cache, must-revalidate' );
 
+define( 'STUZZPANEL', 'BESTPANEL' );
+
 $server = array(
 	'max_players' => 20,
 	'online_players' => array( 'Notch', 'jeb_', 'Xxspawnkiller69xX' ),
@@ -55,61 +57,16 @@ if ( !empty( $_GET['api'] ) ) {
 </div>
 
 <div class="span8">
+		<h1>CrapCraft</h1>
 <div class="tab-content">
 
-
 	<div class="tab-pane active" id="general">
-		<h1>CrapCraft</h1>
-		<div class="row-fluid">
-			<div class="span5">
-				<h2>Hosting</h2>
-				<dl>
-					<dt>Package</dt>
-						<dd>Gold (<?php echo $server['max_mem']; ?>MB RAM)</dd>
-					<dt>Price</dt>
-						<dd>$20 / month</dd>
-					<dt>Recommended player limit</dt>
-						<dd>45 - 60</dd>
-					<dt>Server address</dt>
-						<dd>crapcraft.stuzzhosting.com</dd>
-				</dl>
-			</div>
-
-			<div class="span5">
-				<h2>Live stats</h2>
-				<dl id="live-stats">
-					<dt>Players (3 / <a href="change-player-cap"><?php echo $server['max_players']; ?></a>)</dt>
-						<dd><?php echo implode( '<br>', $server['online_players'] ); ?></dd>
-				</dl>
-			</div>
-
-			<div class="span2">
-				<h2>Fake data</h2>
-				<div id="gauge-cpu"></div>
-				<div id="gauge-mem"></div>
-				<div id="gauge-tick"></div>
-			</div>
-		</div>
-
-		<script async src="panel.js"></script>
+<?php require_once 'general.php'; ?>
 	</div>
 
 
 	<div class="tab-pane" id="server-log">
-		<pre class="server-log"><?php
-
-foreach ( file( 'server.log' ) as $log ) {
-	$log = htmlspecialchars( rtrim( $log ) );
-	if ( preg_match( '/^\tat |^\S+Exception$/', $log ) ) {
-		$log = '<span class="error">' . $log . '</span>';
-	} elseif ( preg_match( '/^\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d \[([A-Z]+)\]/', $log, $level ) ) {
-		$log = '<span class="' . strtolower( $level[1] ) . '">' . $log . '</span>';
-	}
-	echo $log, "\n";
-}
-
-		?></pre>
-		<script async>(function(s){s.scrollTop=s.scrollHeight})(document.querySelector('.server-log'))</script>
+<?php require_once 'server-log.php'; ?>
 	</div>
 
 
