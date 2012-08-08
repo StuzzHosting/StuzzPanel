@@ -14,7 +14,7 @@
 	position: relative;
 }
 
-#offline {
+#live_stats .offline {
 	position: absolute;
 	z-index: 100;
 	left: 0;
