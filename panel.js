@@ -35,17 +35,16 @@ google.setOnLoadCallback(function() {
 
 	setInterval(function() {
 		$.getJSON('index.php?api=stats', function(stats) {
-			cpuData.setValue(0, 0, stats.cpu);
+			cpuData.setValue(0, 0, stats.online ? stats.cpu : 0);
 			cpu.draw(cpuData, cpuOptions);
 
-			memData.setValue(0, 0, stats.mem);
+			memData.setValue(0, 0, stats.online ? stats.mem : 0);
 			memOptions.max = memOptions.redTo = stats.maxmem;
 			memOptions.redFrom = memOptions.yellowTo = stats.maxmem * .9;
 			memOptions.yellowFrom = memOptions.greenTo = stats.maxmem * .75;
-
 			mem.draw(memData, memOptions);
 
-			tickData.setValue(0, 0, stats.tick);
+			tickData.setValue(0, 0, stats.online ? stats.tick : 0);
 			tick.draw(tickData, tickOptions);
 
 			$('#max_players').text(stats.max);
@@ -62,10 +61,26 @@ google.setOnLoadCallback(function() {
 
 			if ( stats.online ) {
 				$( '#offline' ).addClass( 'hidden' );
+				$( '.enable-when-online' ).removeAttr( 'disabled' );
+				$( '.enable-when-offline' ).attr( 'disabled', 'disabled' );
 			} else {
 				$( '#offline' ).removeClass( 'hidden' );
+				$( '.enable-when-online' ).attr( 'disabled', 'disabled' );
+				$( '.enable-when-offline' ).removeAttr( 'disabled' );
 			}
 		});
 	}, 2500);
+});
+
+$(function() {
+	$('#button_start_server').click(function() {
+		$('a[href="#server-log"]').click();
+		$.getJSON( 'index.php?api=start&key=' + $( '#req_key' ).val() );
+	});
+
+	$('#button_stop_server').click(function() {
+		$('a[href="#server-log"]').click();
+		$.getJSON( 'index.php?api=send&cmd=stop&key=' + $( '#req_key' ).val() );
+	});
 });
 

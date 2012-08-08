@@ -20,11 +20,17 @@ foreach ( file( 'server.log' ) as $line ) {
 	$log[] = array( $class, $line );
 }
 
+if ( $l < $_GET['line'] )
+	$l = -1;
+
 ?>
 (function($) {
 	$.each(<?php echo json_encode( $log ); ?>, function(_, entry) {
 		$('.server-log').append( $( '<div>' ).addClass( entry[0] ).html( entry[1] ) );
 	})
+<?php if ( $log ) { ?>
+	$('.server-log')[0].scrollTop = 1e20;
+<?php } ?>
 	setTimeout(function() {
 		$.getScript('index.php?api=log&line=<?php echo $l; ?>')
 	}, 1000);

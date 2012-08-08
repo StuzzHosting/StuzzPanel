@@ -8,6 +8,12 @@ define( 'STUZZPANEL', 'BESTPANEL' );
 
 $server = unserialize( file_get_contents( 'server.dat' ) );
 
+$key_valid = false;
+if ( !empty( $_GET['key'] ) ) {
+	$key_valid = sha1( SERVER_KEY . (int) ( time() / 3600 ) ) == $_GET['key'] ||
+		sha1( SERVER_KEY . (int) ( time() / 3600 - 1 ) ) == $_GET['key'];
+}
+
 if ( !empty( $_GET['api'] ) ) {
 	switch ( $_GET['api'] ) {
 	case 'stats':
@@ -28,6 +34,23 @@ if ( !empty( $_GET['api'] ) ) {
 		header( 'Content-Type: application/javascript' );
 		
 		require_once 'server-log-ajax.php';
+		exit;
+	case 'start':
+		if ( !$key_valid )
+			exit;
+
+		if ( $server['last_ping'] > time() - 15 ) {
+			exit;
+		}
+
+		exec( 'sudo -u minecraft bash -c "cd ~minecraft; ls -l /var/run/screen/S-minecraft/*.minecraft || screen -dmS minecraft -t bukkit -U java -jar craftbukkit.jar"' );
+		exit;
+
+	case 'send':
+		if ( !$key_valid )
+			exit;
+
+		exec( 'sudo -u minecraft screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) );
 		exit;
 	}
 }
