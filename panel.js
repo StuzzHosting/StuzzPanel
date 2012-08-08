@@ -56,6 +56,6 @@ google.setOnLoadCallback(function() {
 			$('#player_count').text(players.list.length);
 			$('#player_list').html(players.list.join('<br>'));
 		});
-	}, 5000);
+	}, 2500);
 });
 
