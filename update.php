@@ -9,5 +9,6 @@ if ( $_GET['k'] != 'some magical number of some variety' ) {
 }
 
 if ( $data = json_decode( $_GET['d'], true ) ) {
+	$data['last_ping'] = time();
 	file_put_contents( 'server.dat', serialize( $data ) );
 }

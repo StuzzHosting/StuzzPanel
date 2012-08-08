@@ -10,6 +10,25 @@
 	pointer-events: none;
 }
 
+#live_stats {
+	position: relative;
+}
+
+#offline {
+	position: absolute;
+	z-index: 100;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+	background-color: rgba(225, 225, 225, 0.9);
+	font-size: 2em;
+	padding: 50px;
+	text-align: center;
+	line-height: 1.2;
+}
+
 .server-log {
 	background-color: #222;
 	color: #eee;

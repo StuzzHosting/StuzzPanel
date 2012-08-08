@@ -10,21 +10,19 @@ $server = unserialize( file_get_contents( 'server.dat' ) );
 
 if ( !empty( $_GET['api'] ) ) {
 	switch ( $_GET['api'] ) {
-	case 'players':
+	case 'stats':
 		header( 'Content-Type: application/json' );
 
 		exit( json_encode( array(
-			'max' => (int) $server['max_players'],
-			'list' => (array) $server['online_players']
-		) ) );
-	case 'load':
-		header( 'Content-Type: application/json' );
-
-		exit( json_encode( array(
-			'cpu' => round( $server['cpu'], 1 ),
-			'mem' => round( $server['mem'] ),
-			'maxmem' => round( $server['max_mem'] ),
-			'tick' => round( $server['tick'], 3 )
+			'online' => $server['last_ping'] > time() - 5,
+			'max'    => (int) $server['max_players'],
+			'list'   => (array) $server['online_players'],
+			'cpu'    => round( $server['cpu'], 1 ),
+			'mem'    => round( $server['mem'], 2 ),
+			'maxmem' => round( $server['max_mem'], 2 ),
+			'tick'   => round( $server['tick'], 3 ),
+			'chunk'  => (array) $server['chunks'],
+			'ent'    => (array) $server['entities']
 		) ) );
 	case 'log':
 		header( 'Content-Type: application/javascript' );

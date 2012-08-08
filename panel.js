@@ -34,27 +34,37 @@ google.setOnLoadCallback(function() {
 	tick.draw(tickData, tickOptions);
 
 	setInterval(function() {
-		$.getJSON('index.php?api=load', function(load) {
-			cpuData.setValue(0, 0, load.cpu);
+		$.getJSON('index.php?api=stats', function(stats) {
+			cpuData.setValue(0, 0, stats.cpu);
 			cpu.draw(cpuData, cpuOptions);
 
-			memData.setValue(0, 0, load.mem);
-			memOptions.max = memOptions.redTo = load.maxmem;
-			memOptions.redFrom = memOptions.yellowTo = load.maxmem * .9;
-			memOptions.yellowFrom = memOptions.greenTo = load.maxmem * .75;
+			memData.setValue(0, 0, stats.mem);
+			memOptions.max = memOptions.redTo = stats.maxmem;
+			memOptions.redFrom = memOptions.yellowTo = stats.maxmem * .9;
+			memOptions.yellowFrom = memOptions.greenTo = stats.maxmem * .75;
 
 			mem.draw(memData, memOptions);
 
-			tickData.setValue(0, 0, load.tick);
+			tickData.setValue(0, 0, stats.tick);
 			tick.draw(tickData, tickOptions);
-		});
-	}, 2500);
 
-	setInterval(function() {
-		$.getJSON('index.php?api=players', function(players) {
-			$('#max_players').text(players.max);
-			$('#player_count').text(players.list.length);
-			$('#player_list').html(players.list.join('<br>'));
+			$('#max_players').text(stats.max);
+			$('#player_count').text(stats.list.length);
+			$('#player_list').html(stats.list.join('<br>') || '<em>none</em>');
+
+			$.each(stats.chunk, function(world, chunks) {
+				$('#world-' + world + '-chunks').text(chunks);
+			});
+
+			$.each(stats.ent, function(world, ents) {
+				$('#world-' + world + '-entities').text(ents);
+			});
+
+			if ( stats.online ) {
+				$( '#offline' ).addClass( 'hidden' );
+			} else {
+				$( '#offline' ).removeClass( 'hidden' );
+			}
 		});
 	}, 2500);
 });
