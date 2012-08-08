@@ -34,7 +34,7 @@ google.setOnLoadCallback(function() {
 	tick.draw(tickData, tickOptions);
 
 	setInterval(function() {
-		$.getJSON('?api=load', function(load) {
+		$.getJSON('index.php?api=load', function(load) {
 			cpuData.setValue(0, 0, load.cpu);
 			cpu.draw(cpuData, cpuOptions);
 
@@ -48,6 +48,6 @@ google.setOnLoadCallback(function() {
 			tickData.setValue(0, 0, load.tick);
 			tick.draw(tickData, tickOptions);
 		});
-	}, 1000);
+	}, 2500);
 });
 

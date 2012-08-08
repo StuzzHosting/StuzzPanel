@@ -4,11 +4,11 @@
 		<h2>Hosting</h2>
 		<dl>
 			<dt>Package</dt>
-				<dd>Gold (<?php echo $server['max_mem']; ?>MB RAM)</dd>
+				<dd>Stone (<?php echo $server['max_mem']; ?>MB RAM)</dd>
 			<dt>Price</dt>
-				<dd>$20 / month</dd>
+				<dd>$10 / month</dd>
 			<dt>Recommended player limit</dt>
-				<dd>45 - 60</dd>
+				<dd>15 - 30</dd>
 			<dt>Server address</dt>
 				<dd>crapcraft.stuzzhosting.com</dd>
 		</dl>
@@ -17,7 +17,7 @@
 	<div class="span5">
 		<h2>Live stats</h2>
 		<dl id="live-stats">
-			<dt>Players (3 / <a href="change-player-cap"><?php echo $server['max_players']; ?></a>)</dt>
+			<dt>Players (<?php echo count( $server['online_players'] ); ?> / <a href="change-player-cap"><?php echo $server['max_players']; ?></a>)</dt>
 				<dd><?php echo implode( '<br>', $server['online_players'] ); ?></dd>
 		</dl>
 	</div>

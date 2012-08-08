@@ -2,31 +2,25 @@
 
 header( 'Cache-Control: private, max-age=0' );
 header( 'Pragma: no-cache, must-revalidate' );
+header( 'Expires: 01 Jan 1970 00:00:00 GMT' );
 
 define( 'STUZZPANEL', 'BESTPANEL' );
 
-$server = array(
-	'max_players' => 20,
-	'online_players' => array( 'Notch', 'jeb_', 'Xxspawnkiller69xX' ),
-	'cpu' => mt_rand( 30, 140 ),
-	'mem' => mt_rand( 10, 70 ) * 10.24,
-	'max_mem' => 1024,
-	'tick' => mt_rand( 17000, 20000 ) / 1000,
-);
+$server = unserialize( file_get_contents( 'server.dat' ) );
 
 if ( !empty( $_GET['api'] ) ) {
 	switch ( $_GET['api'] ) {
 	case 'players':
 		exit( json_encode( array(
-			'max' => $server['max_players'],
-			'list' => $server['online_players']
+			'max' => (int) $server['max_players'],
+			'list' => (array) $server['online_players']
 		) ) );
 	case 'load':
 		exit( json_encode( array(
-			'cpu' => $server['cpu'],
-			'mem' => $server['mem'],
-			'maxmem' => $server['max_mem'],
-			'tick' => $server['tick']
+			'cpu' => round( $server['cpu'], 1 ),
+			'mem' => round( $server['mem'] ),
+			'maxmem' => round( $server['max_mem'] ),
+			'tick' => round( $server['tick'], 3 )
 		) ) );
 	}
 }
@@ -42,7 +36,7 @@ if ( !empty( $_GET['api'] ) ) {
 	<script type='text/javascript'>google.load('visualization','1',{packages:['gauge']})</script>
 </head>
 <body>
-<img src="http://www.stuzzhosting.com/img/blocks/gold.png" class="watermark">
+<img src="http://www.stuzzhosting.com/img/blocks/stone.png" class="watermark">
 <div class="container">
 <div class="row tabbable tabs-left">
 <div class="span4">
