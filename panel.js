@@ -14,9 +14,16 @@ google.setOnLoadCallback(function() {
 		yellowFrom: 75,
 		yellowTo: 90,
 		greenFrom: 0,
-		greenTo: 75
+		greenTo: 75,
+		width: 90
 	}, memOptions = {
-		greenFrom: 0
+		redFrom: 90,
+		redTo: 100,
+		yellowFrom: 75,
+		yellowTo: 90,
+		greenFrom: 0,
+		greenTo: 75,			
+		width: 90
 	}, tickOptions = {
 		redFrom: 0,
 		redTo: 15,
@@ -24,7 +31,8 @@ google.setOnLoadCallback(function() {
 		yellowTo: 19,
 		greenFrom: 19,
 		greenTo: 20,
-		max: 20
+		max: 20,
+		width: 90
 	}, cpu	= new google.visualization.Gauge(document.querySelector('#gauge-cpu')),
 	mem	= new google.visualization.Gauge(document.querySelector('#gauge-mem')),
 	tick	= new google.visualization.Gauge(document.querySelector('#gauge-tick'));
