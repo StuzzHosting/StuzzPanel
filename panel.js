@@ -60,11 +60,11 @@ google.setOnLoadCallback(function() {
 			});
 
 			if ( stats.online ) {
-				$( '#offline' ).addClass( 'hidden' );
+				$( '.offline' ).addClass( 'hidden' );
 				$( '.enable-when-online' ).removeAttr( 'disabled' );
 				$( '.enable-when-offline' ).attr( 'disabled', 'disabled' );
 			} else {
-				$( '#offline' ).removeClass( 'hidden' );
+				$( '.offline' ).removeClass( 'hidden' );
 				$( '.enable-when-online' ).attr( 'disabled', 'disabled' );
 				$( '.enable-when-offline' ).removeAttr( 'disabled' );
 			}

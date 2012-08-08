@@ -82,7 +82,7 @@ if ( !empty( $_GET['api'] ) ) {
 </div>
 
 <div class="span8">
-		<h1>CrapCraft</h1>
+		<h1>CrapCraft <span class="label offline<?php if ( $server['last_ping'] > time() - 15 ) echo ' hidden'; ?>">Offline</span></h1>
 <div class="tab-content">
 
 	<div class="tab-pane active" id="general">
