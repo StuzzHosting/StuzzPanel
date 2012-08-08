@@ -49,5 +49,13 @@ google.setOnLoadCallback(function() {
 			tick.draw(tickData, tickOptions);
 		});
 	}, 2500);
+
+	setInterval(function() {
+		$.getJSON('index.php?api=players', function(players) {
+			$('#max_players').text(players.max);
+			$('#player_count').text(players.list.length);
+			$('#player_list').html(players.list.join('<br>'));
+		});
+	}, 5000);
 });
 
