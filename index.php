@@ -8,9 +8,11 @@ define( 'STUZZPANEL', 'BESTPANEL' );
 
 $server = unserialize( file_get_contents( 'server.dat' ) );
 
+$session_key = sha1( SERVER_KEY . (int) ( time() / 3600 ) );
+
 $key_valid = false;
 if ( !empty( $_GET['key'] ) ) {
-	$key_valid = sha1( SERVER_KEY . (int) ( time() / 3600 ) ) == $_GET['key'] ||
+	$key_valid = $session_key == $_GET['key'] ||
 		sha1( SERVER_KEY . (int) ( time() / 3600 - 1 ) ) == $_GET['key'];
 }
 

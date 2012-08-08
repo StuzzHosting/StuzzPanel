@@ -83,12 +83,18 @@ google.setOnLoadCallback(function() {
 $(function() {
 	$('#button_start_server').click(function() {
 		$('a[href="#server-log"]').click();
-		$.getJSON( 'index.php?api=start&key=' + $( '#req_key' ).val() );
+		$.get( 'index.php?api=start&key=' + $( '#req_key' ).val() );
 	});
 
 	$('#button_stop_server').click(function() {
 		$('a[href="#server-log"]').click();
-		$.getJSON( 'index.php?api=send&cmd=stop&key=' + $( '#req_key' ).val() );
+		$.get( 'index.php?api=send&cmd=stop&key=' + $( '#req_key' ).val() );
+	});
+
+	$('#server_console').submit(function(e) {
+		e.preventDefault();
+		$.get( 'index.php?api=send&cmd=' + encodeURIComponent( $( '#server_input' ).val() ) + '&key=' + $( '#req_key' ).val() );
+		$( '#server_input' ).val( '' );
 	});
 });
 

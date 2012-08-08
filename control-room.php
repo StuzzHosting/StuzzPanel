@@ -1,6 +1,6 @@
 <?php if ( !defined( 'STUZZPANEL' ) ) exit; ?>
 
-<input id="req_key" type="hidden" value="<?php echo sha1( SERVER_KEY . (int) ( time() / 3600 ) ); ?>">
+<input id="req_key" type="hidden" value="<?php echo $session_key; ?>">
 
 <section>
 <h2>Start</h2>
