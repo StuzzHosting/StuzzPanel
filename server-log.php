@@ -1,5 +1,5 @@
 <?php if ( !defined( 'STUZZPANEL' ) ) exit; ?>
-		<pre class="server-log"><?php
+<pre class="server-log"><?php
 
 foreach ( file( 'server.log' ) as $log ) {
 	$log = htmlspecialchars( rtrim( $log ) );
@@ -11,5 +11,5 @@ foreach ( file( 'server.log' ) as $log ) {
 	echo $log, "\n";
 }
 
-		?></pre>
-		<script async>(function(s){s.scrollTop=1e20})(document.querySelector('.server-log'))</script>
+?></pre>
+<script async>(function(s){s.scrollTop=1e20})(document.querySelector('.server-log'))</script>

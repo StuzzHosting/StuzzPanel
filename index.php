@@ -53,6 +53,7 @@ if ( !empty( $_GET['api'] ) ) {
 	<ul class="nav nav-pills nav-stacked">
 		<li class="active"><a href="#general" data-toggle="tab">General information</a></li>
 		<li><a href="#server-log" data-toggle="tab">Server log</a></li>
+		<li><a href="#control-room" data-toggle="tab">Control room</a></li>
 	</ul>
 </div>
 
@@ -67,6 +68,11 @@ if ( !empty( $_GET['api'] ) ) {
 
 	<div class="tab-pane" id="server-log">
 <?php require_once 'server-log.php'; ?>
+	</div>
+
+
+	<div class="tab-pane" id="control-room">
+<?php require_once 'control-room.php'; ?>
 	</div>
 
 
