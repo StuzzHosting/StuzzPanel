@@ -15,7 +15,7 @@
 	</div>
 
 	<div class="span5" id="live_stats">
-		<div<?php if ( $server['last_ping'] > time() - 5 ) echo ' class="hidden"'; ?> id="offline">The server<br>is offline.</div>
+		<div<?php if ( $server['last_ping'] > time() - 15 ) echo ' class="hidden"'; ?> id="offline">The server<br>is offline.</div>
 		<h2>Live stats</h2>
 		<dl>
 			<dt>Players (<span id="player_count"><?php echo count( $server['online_players'] ); ?></span> / <a href="change-player-cap" id="max_players"><?php echo $server['max_players']; ?></a>)</dt>

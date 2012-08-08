@@ -14,7 +14,7 @@ if ( !empty( $_GET['api'] ) ) {
 		header( 'Content-Type: application/json' );
 
 		exit( json_encode( array(
-			'online' => $server['last_ping'] > time() - 5,
+			'online' => $server['last_ping'] > time() - 15,
 			'max'    => (int) $server['max_players'],
 			'list'   => (array) $server['online_players'],
 			'cpu'    => round( $server['cpu'], 1 ),
