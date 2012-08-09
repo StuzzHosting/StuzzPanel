@@ -6,6 +6,18 @@ header( 'Expires: 01 Jan 1970 00:00:00 GMT' );
 
 define( 'STUZZPANEL', 'BESTPANEL' );
 
+if ( !empty( $_GET['api'] ) && $_GET['api'] == 'username' ) {
+	define( 'SKIP_AUTHENTICATION', true );
+	require_once 'database.php';
+
+	// TODO: more security stuff
+	if ( $u = single_query( 'SELECT `username` FROM `accounts` WHERE `key` = ?', array( $_GET['k'] ) ) ) {
+		exit( $u );
+	}
+
+	exit;
+}
+
 require_once 'database.php';
 
 $server = unserialize( file_get_contents( 'server.dat' ) );

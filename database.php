@@ -29,8 +29,6 @@ CREATE TABLE IF NOT EXISTS `mc_servers` (
 
 require_once 'config.php';
 
-define( 'USERNAME', 'crapcraf' );
-
 $db = new mysqli( DB_HOST, DB_USER, DB_PASS, DB_NAME );
 if ( $db->connect_error ) {
 	exit( 'Could not connect to database: Error ' . $db->connect_errno );
@@ -66,14 +64,20 @@ function multi_query( $q, $arg ) {
 	return $res->fetch_assoc();
 }
 
-if ( !single_query( 'SELECT `minecraft` FROM `accounts` WHERE `username` = ?', array( USERNAME ) ) ) {
-	header( 'Status: 403', true, 403 );
-	require_once 'access-denied.php';
-	exit;
+if ( !defined( 'SKIP_AUTHENTICATION' ) ) {
+	require_once 'authentication.php';
 }
 
-define( 'SERVER_KEY', single_query( 'SELECT `key` FROM `accounts` WHERE `username` = ?', array( USERNAME ) ) );
+if ( !defined( 'SKIP_AUTHENTICATION' ) || constant( 'SKIP_AUTHENTICATION' ) === 'grab-only' ) {
+	if ( !single_query( 'SELECT `minecraft` FROM `accounts` WHERE `username` = ?', array( USERNAME ) ) ) {
+		header( 'Status: 403', true, 403 );
+		require_once 'access-denied.php';
+		exit;
+	}
 
-$serverinfo = multi_query( 'SELECT * FROM `mc_servers` WHERE `username` = ?', USERNAME );
+	define( 'SERVER_KEY', single_query( 'SELECT `key` FROM `accounts` WHERE `username` = ?', array( USERNAME ) ) );
 
-define( 'MAX_MEMORY', $serverinfo['ram'] );
+	$serverinfo = multi_query( 'SELECT * FROM `mc_servers` WHERE `username` = ?', USERNAME );
+
+	define( 'MAX_MEMORY', $serverinfo['ram'] );
+}

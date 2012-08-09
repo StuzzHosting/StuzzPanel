@@ -2,6 +2,10 @@
 
 define( 'STUZZPANEL', 'BESTPANEL' );
 
+define( 'USERNAME', $_GET['u'] );
+
+define( 'SKIP_AUTHENTICATION', 'grab-only' );
+
 require_once 'database.php';
 
 header( 'Cache-Control: private, max-age=0' );
