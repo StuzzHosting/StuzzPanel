@@ -1,5 +1,8 @@
 <?php
 
+// This script assumes the MySQL server is in the same timezone as the web server.
+date_default_timezone_set( @date_default_timezone_get() );
+
 header( 'Cache-Control: private, max-age=0' );
 header( 'Pragma: no-cache, must-revalidate' );
 header( 'Expires: 01 Jan 1970 00:00:00 GMT' );
@@ -20,7 +23,9 @@ if ( !empty( $_GET['api'] ) && $_GET['api'] == 'username' ) {
 
 require_once 'database.php';
 
-$server = unserialize( file_get_contents( 'server.dat' ) );
+$serverdata = multi_query( 'SELECT `data`, `timestamp` FROM `mc_server_stats` WHERE `username` = ? ORDER BY `timestamp` DESC LIMIT 1', USERNAME );
+$server = unserialize( $serverdata['data'] );
+$server['last_ping'] = strtotime( $serverdata['timestamp'] );
 
 $session_key = sha1( SERVER_KEY . (int) ( time() / 3600 ) );
 

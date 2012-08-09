@@ -16,6 +16,11 @@ if ( $_GET['k'] != SERVER_KEY ) {
 }
 
 if ( $data = json_decode( $_GET['d'], true ) ) {
-	$data['last_ping'] = time();
-	file_put_contents( 'server.dat', serialize( $data ) );
+	db_insert( 'mc_server_stats', array( 'username' => USERNAME, 'data' => serialize( $data ) ) );
+
+	// Don't run cleanup every single time.
+	if ( mt_rand( 0, 64 ) == 0 ) {
+		global $db;
+		$db->query( 'DELETE FROM `mc_server_stats` WHERE `username` = \'' . $db->escape_string( USERNAME ) . '\' AND `timestamp` < TIMESTAMPADD( HOUR, 48, NOW() ) )' );
+	}
 }
