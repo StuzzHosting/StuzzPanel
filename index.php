@@ -6,6 +6,8 @@ header( 'Expires: 01 Jan 1970 00:00:00 GMT' );
 
 define( 'STUZZPANEL', 'BESTPANEL' );
 
+require_once 'database.php';
+
 $server = unserialize( file_get_contents( 'server.dat' ) );
 
 $session_key = sha1( SERVER_KEY . (int) ( time() / 3600 ) );
@@ -17,6 +19,11 @@ if ( !empty( $_GET['key'] ) ) {
 }
 
 if ( !empty( $_GET['api'] ) ) {
+	if ( !$key_valid ) {
+		header( 'Status: 403', true, 403 );
+		exit;
+	}
+
 	switch ( $_GET['api'] ) {
 	case 'stats':
 		header( 'Content-Type: application/json' );
@@ -38,21 +45,15 @@ if ( !empty( $_GET['api'] ) ) {
 		require_once 'server-log-ajax.php';
 		exit;
 	case 'start':
-		if ( !$key_valid )
-			exit;
-
 		if ( $server['last_ping'] > time() - 15 ) {
 			exit;
 		}
 
-		exec( 'sudo -u minecraft bash -c "cd ~minecraft; ls -l /var/run/screen/S-minecraft/*.minecraft || screen -dmS minecraft -t bukkit -U java -jar craftbukkit.jar"' );
+		exec( 'sudo -u ' . USERNAME . ' bash -c "cd ~' . USERNAME . '/minecraft; ls -l /var/run/screen/S-' . USERNAME . '/*.minecraft || screen -dmS minecraft -t bukkit -U java -Xmx' . MAX_MEMORY . 'M -Xms256M -Xmn150m -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing -XX:CMSIncrementalDutyCycleMin=10 -XX:CMSIncrementalDutyCycle=50 -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=4 -XX:+UseParNewGC -XX:MaxGCPauseMillis=50 -XX:GCTimeRatio=10 -XX:+DisableExplicitGC -jar ' . USERNAME . '.jar nogui"' );
 		exit;
 
 	case 'send':
-		if ( !$key_valid )
-			exit;
-
-		exec( 'sudo -u minecraft screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) );
+		exec( 'sudo -u ' . USERNAME . ' screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) );
 		exit;
 	}
 }
@@ -61,7 +62,7 @@ if ( !empty( $_GET['api'] ) ) {
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>StuzzPanel</title>
+	<title><?php echo $serverinfo['name']; ?> | StuzzPanel</title>
 	<link href="/bootstrap/css/bootstrap.combined.css" rel="stylesheet">
 	<link href="style.css" rel="stylesheet">
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
@@ -84,7 +85,7 @@ if ( !empty( $_GET['api'] ) ) {
 </div>
 
 <div class="span8">
-		<h1>CrapCraft <span class="label offline<?php if ( $server['last_ping'] > time() - 15 ) echo ' hidden'; ?>">Offline</span></h1>
+		<h1><?php echo $serverinfo['name']; ?> <span class="label offline<?php if ( $server['last_ping'] > time() - 15 ) echo ' hidden'; ?>">Offline</span></h1>
 <div class="tab-content">
 
 	<div class="tab-pane active" id="general">

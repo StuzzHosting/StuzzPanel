@@ -42,7 +42,7 @@ google.setOnLoadCallback(function() {
 	tick.draw(tickData, tickOptions);
 
 	setInterval(function() {
-		$.getJSON('index.php?api=stats', function(stats) {
+		$.getJSON('index.php?api=stats&key=' + $( '#req_key' ).val(), function(stats) {
 			cpuData.setValue(0, 0, stats.online ? stats.cpu : 0);
 			cpu.draw(cpuData, cpuOptions);
 
@@ -77,6 +77,8 @@ google.setOnLoadCallback(function() {
 				$( '.enable-when-offline' ).removeAttr( 'disabled' );
 			}
 		});
+
+		$.getScript( 'index.php?api=log&key=' + $( '#req_key' ).val() + '&line=' + logline );
 	}, 2500);
 });
 

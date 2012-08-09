@@ -4,13 +4,13 @@
 		<h2>Hosting</h2>
 		<dl>
 			<dt>Package</dt>
-				<dd>Stone (<?php echo round( $server['max_mem'] ); ?>MB RAM)</dd>
+				<dd>Stone (<?php echo MAX_MEMORY; ?>MB RAM)</dd>
 			<dt>Price</dt>
 				<dd>$10 / month</dd>
 			<dt>Recommended player limit</dt>
 				<dd>15 - 30</dd>
 			<dt>Server address</dt>
-				<dd>crapcraft.stuzzhosting.com</dd>
+				<dd><?php echo $serverinfo['ip'], ':', $serverinfo['port']; ?></dd>
 		</dl>
 	</div>
 

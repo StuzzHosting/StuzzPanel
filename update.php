@@ -1,10 +1,13 @@
 <?php
 
+define( 'STUZZPANEL', 'BESTPANEL' );
+
+require_once 'database.php';
+
 header( 'Cache-Control: private, max-age=0' );
 header( 'Pragma: no-cache, must-revalidate' );
 
-// TODO: Actual keys with actual validation
-if ( $_GET['k'] != 'some magical number of some variety' ) {
+if ( $_GET['k'] != SERVER_KEY ) {
 	exit;
 }
 

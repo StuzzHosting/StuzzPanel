@@ -25,14 +25,15 @@ if ( $l < $_GET['line'] )
 
 ?>
 (function($) {
-	$.each(<?php echo json_encode( $log ); ?>, function(_, entry) {
-		$('.server-log').append( $( '<div>' ).addClass( entry[0] ).html( entry[1] ) );
+	$.each( <?php echo json_encode( $log ); ?>, function( _, entry ) {
+		$( '.server-log' ).append( $( '<div>' ).addClass( entry[0] ).html( entry[1] ) );
 	})
 <?php if ( $log ) { ?>
-	$('.server-log')[0].scrollTop = 1e20;
+	$( '.server-log' )[0].scrollTop = 1e20;
 <?php } ?>
-	setTimeout(function() {
-		$.getScript('index.php?api=log&line=<?php echo $l; ?>')
-	}, 1000);
+	logline = <?php echo $l; ?>;
+<?php if ( $_GET['key'] != $session_key ) { ?>
+	$( '#req_key' ).val( '<?php echo $session_key; ?>' );
+<?php } ?>
 })(jQuery)
 
