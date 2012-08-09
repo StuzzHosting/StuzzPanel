@@ -1,14 +1,14 @@
-google.setOnLoadCallback(function() {
-	var cpuData = google.visualization.arrayToDataTable([
+google.setOnLoadCallback( function() {
+	var cpuData = google.visualization.arrayToDataTable( [
 		['CPU'],
 		[    0]
-	]), memData = google.visualization.arrayToDataTable([
+	] ), memData = google.visualization.arrayToDataTable( [
 		['Memory'],
 		[       0]
-	]), tickData = google.visualization.arrayToDataTable([
+	] ), tickData = google.visualization.arrayToDataTable( [
 		['Tick rate'],
 		[         20]
-	]), cpuOptions = {
+	] ), cpuOptions = {
 		redFrom: 90,
 		redTo: 100,
 		yellowFrom: 75,
@@ -33,39 +33,39 @@ google.setOnLoadCallback(function() {
 		greenTo: 20,
 		max: 20,
 		width: 90
-	}, cpu	= new google.visualization.Gauge(document.querySelector('#gauge-cpu')),
-	mem	= new google.visualization.Gauge(document.querySelector('#gauge-mem')),
-	tick	= new google.visualization.Gauge(document.querySelector('#gauge-tick'));
+	}, cpu	= new google.visualization.Gauge( document.querySelector( '#gauge-cpu' ) ),
+	mem	= new google.visualization.Gauge( document.querySelector( '#gauge-mem' ) ),
+	tick	= new google.visualization.Gauge( document.querySelector( '#gauge-tick' ) );
 
-	cpu.draw(cpuData, cpuOptions);
-	mem.draw(memData, memOptions);
-	tick.draw(tickData, tickOptions);
+	cpu.draw ( cpuData,  cpuOptions  );
+	mem.draw ( memData,  memOptions  );
+	tick.draw( tickData, tickOptions );
 
-	setInterval(function() {
-		$.getJSON('index.php?api=stats&key=' + $( '#req_key' ).val(), function(stats) {
-			cpuData.setValue(0, 0, stats.online ? stats.cpu : 0);
-			cpu.draw(cpuData, cpuOptions);
+	setInterval( function() {
+		$.getJSON( 'index.php?api=stats&key=' + $( '#req_key' ).val(), function( stats ) {
+			cpuData.setValue( 0, 0, stats.online ? stats.cpu : 0 );
+			cpu.draw( cpuData, cpuOptions );
 
-			memData.setValue(0, 0, stats.online ? stats.mem : 0);
+			memData.setValue( 0, 0, stats.online ? stats.mem : 0 );
 			memOptions.max = memOptions.redTo = stats.maxmem;
 			memOptions.redFrom = memOptions.yellowTo = stats.maxmem * .9;
 			memOptions.yellowFrom = memOptions.greenTo = stats.maxmem * .75;
-			mem.draw(memData, memOptions);
+			mem.draw( memData, memOptions );
 
-			tickData.setValue(0, 0, stats.online ? stats.tick : 0);
-			tick.draw(tickData, tickOptions);
+			tickData.setValue( 0, 0, stats.online ? stats.tick : 0 );
+			tick.draw( tickData, tickOptions );
 
 			$('#max_players').text(stats.max);
 			$('#player_count').text(stats.list.length);
 			$('#player_list').html(stats.list.join('<br>') || '<em>none</em>');
 
-			$.each(stats.chunk, function(world, chunks) {
-				$('#world-' + world + '-chunks').text(chunks);
-			});
+			$.each( stats.chunk, function(world, chunks) {
+				$( '#world-' + world + '-chunks' ).text( chunks );
+			} );
 
-			$.each(stats.ent, function(world, ents) {
-				$('#world-' + world + '-entities').text(ents);
-			});
+			$.each( stats.ent, function(world, ents) {
+				$( '#world-' + world + '-entities' ).text( ents );
+			} );
 
 			if ( stats.online ) {
 				$( '.offline' ).addClass( 'hidden' );
@@ -79,8 +79,10 @@ google.setOnLoadCallback(function() {
 		});
 
 		$.getScript( 'index.php?api=log&key=' + $( '#req_key' ).val() + '&line=' + logline );
-	}, 2500);
-});
+	}, 2500 );
+
+	
+} );
 
 $(function() {
 	$('#button_start_server').click(function() {

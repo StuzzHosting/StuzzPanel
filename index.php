@@ -14,7 +14,7 @@ if ( !empty( $_GET['api'] ) && $_GET['api'] == 'username' ) {
 	require_once 'database.php';
 
 	// TODO: more security stuff
-	if ( $u = single_query( 'SELECT `username` FROM `accounts` WHERE `key` = ?', array( $_GET['k'] ) ) ) {
+	if ( $u = single_query( 'SELECT `username` FROM `accounts` WHERE `key` = ?', $_GET['k'] ) ) {
 		exit( $u );
 	}
 
@@ -60,6 +60,13 @@ if ( !empty( $_GET['api'] ) ) {
 		header( 'Content-Type: application/javascript' );
 		
 		require_once 'server-log-ajax.php';
+
+		exit;
+	case 'graph':
+		header( 'Content-Type: application/json' );
+
+		require_once 'graph-ajax.php';
+
 		exit;
 	case 'start':
 		if ( $server['last_ping'] > time() - 15 ) {
@@ -83,7 +90,8 @@ if ( !empty( $_GET['api'] ) ) {
 	<link href="/bootstrap/css/bootstrap.combined.css" rel="stylesheet">
 	<link href="style.css" rel="stylesheet">
 	<script type='text/javascript' src='https://www.google.com/jsapi'></script>
-	<script type='text/javascript'>google.load('visualization','1',{packages:['gauge']})</script>
+	<script type='text/javascript'>google.load('visualization','1',{packages:['annotatedtimeline','gauge']})</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 </head>
 <body>
 <img src="http://www.stuzzhosting.com/img/blocks/stone.png" class="watermark">
@@ -96,8 +104,9 @@ if ( !empty( $_GET['api'] ) ) {
 
 	<ul class="nav nav-pills nav-stacked">
 		<li class="active"><a href="#general" data-toggle="tab">General information</a></li>
-		<li><a href="#server-log" data-toggle="tab" onclick="setTimeout(function(s){s.scrollTop=1e20},0,document.querySelector('.server-log'))">Server log</a></li>
+		<li><a href="#server-log" data-toggle="tab" onclick="setTimeout(function(s){s.scrollTop=1e20},0,document.querySelector('.server-log'))">Server console</a></li>
 		<li><a href="#control-room" data-toggle="tab">Control room</a></li>
+		<li><a href="#graph" data-toggle="tab">Graphs</a></li>
 	</ul>
 </div>
 
@@ -120,11 +129,14 @@ if ( !empty( $_GET['api'] ) ) {
 	</div>
 
 
+	<div class="tab-pane" id="graph">
+<?php require_once 'graph.php'; ?>
+	</div>
+
 </div>
 </div>
 </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script async src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
