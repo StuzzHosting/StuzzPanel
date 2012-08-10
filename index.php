@@ -73,11 +73,11 @@ if ( !empty( $_GET['api'] ) ) {
 			exit;
 		}
 
-		exec( 'sudo -u ' . USERNAME . ' bash -c "cd ~' . USERNAME . '/minecraft; ls -l /var/run/screen/S-' . USERNAME . '/*.minecraft || screen -dmS minecraft -t bukkit -U java -Xmx' . MAX_MEMORY . 'M -Xms256M -Xmn150m -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing -XX:CMSIncrementalDutyCycleMin=10 -XX:CMSIncrementalDutyCycle=50 -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=4 -XX:+UseParNewGC -XX:MaxGCPauseMillis=50 -XX:GCTimeRatio=10 -XX:+DisableExplicitGC -jar ' . USERNAME . '.jar nogui"' );
+		exec( 'ssh -i ~/.ssh/panel_rsa ' . USERNAME . '@' . NODE . ' -t "cd ~' . USERNAME . '/minecraft; ls -l /var/run/screen/S-' . USERNAME . '/*.minecraft || screen -dmS minecraft -t bukkit -U java -Xmx' . MAX_MEMORY . 'M -Xms256M -Xmn150m -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing -XX:CMSIncrementalDutyCycleMin=10 -XX:CMSIncrementalDutyCycle=50 -XX:+CMSClassUnloadingEnabled -XX:ParallelGCThreads=4 -XX:+UseParNewGC -XX:MaxGCPauseMillis=50 -XX:GCTimeRatio=10 -XX:+DisableExplicitGC -jar ' . USERNAME . '.jar nogui"' );
 		exit;
 
 	case 'send':
-		exec( 'sudo -u ' . USERNAME . ' screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) );
+		exit( 'ssh -i ~/.ssh/panel_rsa ' . USERNAME . '@' . NODE . ' -t "screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) . '"' );
 		exit;
 	}
 }

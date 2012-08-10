@@ -103,4 +103,5 @@ if ( !defined( 'SKIP_AUTHENTICATION' ) || constant( 'SKIP_AUTHENTICATION' ) === 
 	$serverinfo = multi_query( 'SELECT * FROM `mc_servers` WHERE `username` = ?', USERNAME );
 
 	define( 'MAX_MEMORY', $serverinfo['ram'] );
+	define( 'NODE', $serverinfo['node'] );
 }
