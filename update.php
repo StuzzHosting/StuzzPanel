@@ -1,5 +1,10 @@
 <?php
 
+if ( ini_get( 'magic_quotes_gpc' ) ) {
+	// FUCKING MAGIC QUOTES FUCK FUCK FUCK FUCK
+	$_GET['d'] = stripslashes( $_GET['d'] );
+}
+
 define( 'STUZZPANEL', 'BESTPANEL' );
 
 define( 'USERNAME', $_GET['u'] );
