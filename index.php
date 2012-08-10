@@ -77,7 +77,7 @@ if ( !empty( $_GET['api'] ) ) {
 		exit;
 
 	case 'send':
-		exit( 'ssh -i ~/.ssh/panel_rsa ' . USERNAME . '@' . NODE . ' -t "screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) . '"' );
+		exec( 'ssh -i ~/.ssh/panel_rsa ' . USERNAME . '@' . NODE . ' -t "screen -S minecraft -p bukkit -X stuff ' . escapeshellarg( $_GET['cmd'] . "\n" ) . '"' );
 		exit;
 	}
 }
