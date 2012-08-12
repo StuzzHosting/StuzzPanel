@@ -16,5 +16,5 @@ foreach ( file( 'server.log' ) as $log ) {
 }
 
 ?></pre>
-<form id="server_console" action="javascript:void 0" method="get"><input type="text" id="server_input" class="span8 enable-when-online"></form>
+<form id="server_console" action="javascript:void 0" method="get"><input type="text" id="server_input" class="span8 enable-when-online" disabled></form>
 <script>var logline = <?php echo $line; ?>;</script>
