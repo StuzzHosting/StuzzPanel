@@ -82,6 +82,18 @@ if ( !empty( $_GET['api'] ) ) {
 	}
 }
 
+$packages = array(
+	256	=> array( 'name' => 'Bedrock',    	'minplayers' => 5,	'maxplayers' => 8	),
+	337	=> array( 'name' => 'Unobtainium',	'minplayers' => -1<<31,	'maxplayers' => 'NaN'	),
+	512	=> array( 'name' => 'Stone',      	'minplayers' => 15,	'maxplayers' => 30	),
+	768	=> array( 'name' => 'Brick',      	'minplayers' => 30,	'maxplayers' => 45	),
+	1024	=> array( 'name' => 'Gold',       	'minplayers' => 45,	'maxplayers' => 60	),
+	1536	=> array( 'name' => 'Iron',       	'minplayers' => 60,	'maxplayers' => 90	),
+	2048	=> array( 'name' => 'Diamond',    	'minplayers' => 90,	'maxplayers' => 120	),
+);
+
+$package = $packages[MAX_MEMORY];
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -94,7 +106,7 @@ if ( !empty( $_GET['api'] ) ) {
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 </head>
 <body>
-<img src="http://www.stuzzhosting.com/img/blocks/stone.png" class="watermark">
+<img src="http://www.stuzzhosting.com/img/blocks/<?php echo strtolower( $package['name'] ); ?>.png" class="watermark">
 <div class="container">
 <div class="row tabbable tabs-left">
 <div class="span4">
@@ -109,6 +121,12 @@ if ( !empty( $_GET['api'] ) ) {
 		<li><a href="#graph" data-toggle="tab">Graphs</a></li>
 	</ul>
 </div>
+
+<noscript><style>
+#server-log {
+	display: block;
+}
+</style></noscript>
 
 <div class="span8">
 		<h1><?php echo $serverinfo['name']; ?> <span class="label offline<?php if ( $server['last_ping'] > time() - 15 ) echo ' hidden'; ?>">Offline</span></h1>
